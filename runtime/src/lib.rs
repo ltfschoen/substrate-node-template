@@ -259,9 +259,15 @@ impl pallet_sudo::Config for Runtime {
 	type Call = Call;
 }
 
+parameter_types! {
+	pub const SomethingCountIndex: u64 = 2;
+}
+
 /// Configure the template pallet in pallets/template.
 impl pallet_template::Config for Runtime {
 	type Event = Event;
+	type SomethingCountIndex = u64;
+	type SomethingConfigIndex = u64;
 }
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
