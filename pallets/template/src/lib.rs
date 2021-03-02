@@ -96,17 +96,11 @@ decl_module! {
 			// note: required by `hidden_include::StorageMap::insert`
 			// <SomethingConfig<T>>::insert(0u64.into(), current_block_number);
 
-			// PROBLEM 2: WHAT DO I HAVE TO DO TO MAKE THIS COMPILE? PLEASE EXPLAIN SOLUTION SO I UNDERSTAND
-			// ^^^^^^^^^^^^^^^^^^^^^^ ----------- this method call resolves to `T`
-			// cannot infer type for type parameter `K` declared on the associated function `something_config`
-			// note: cannot satisfy `_: EncodeLike<<T as Config>::SomethingConfigIndex>`
-			// let first_config = Self::something_config(0u64.into());
-
             for idx in 0..something_count.into() {
 				debug::info!("idx {:#?}", idx);
 
 				if let Some(_some_idx) = Self::something() {
-					// PROBLEM 3: WHAT DO I HAVE TO DO TO MAKE THIS COMPILE? PLEASE EXPLAIN SOLUTION SO I UNDERSTAND
+					// PROBLEM 2: WHAT DO I HAVE TO DO TO MAKE THIS COMPILE? PLEASE EXPLAIN SOLUTION SO I UNDERSTAND
 					// cannot infer type for type parameter `K` declared on the associated function `something_config`
 					// note: cannot satisfy `_: EncodeLike<<T as Config>::SomethingConfigIndex>`
 					// if let Some(_some_config_idx) = Self::something_config(Zero::zero()) {
