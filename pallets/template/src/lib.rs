@@ -87,25 +87,19 @@ decl_module! {
 
 			let something_count = Self::something_count();
 
-			<SomethingCount<T>>::put(something_count + 1u32.into()); // One::one() or 1u32.into()
+			<SomethingCount<T>>::put(something_count + One::one()); // One::one() or 1u32.into()
 
-			// PROBLEM 1: WHAT DO I HAVE TO DO TO MAKE THIS COMPILE? PLEASE EXPLAIN SOLUTION SO I UNDERSTAND
-			// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ----------- this method call resolves to `T`
-			// cannot infer type for type parameter `KeyArg` declared on the associated function `insert`
-			// note: cannot satisfy `_: EncodeLike<<T as Config>::SomethingConfigIndex>`
-			// note: required by `hidden_include::StorageMap::insert`
-			// <SomethingConfig<T>>::insert(0u64.into(), current_block_number);
+			let index: T::SomethingConfigIndex = 0u32.into();
+			<SomethingConfig<T>>::insert(index, current_block_number);
 
             for idx in 0..something_count.into() {
 				debug::info!("idx {:#?}", idx);
 
 				if let Some(_some_idx) = Self::something() {
-					// PROBLEM 2: WHAT DO I HAVE TO DO TO MAKE THIS COMPILE? PLEASE EXPLAIN SOLUTION SO I UNDERSTAND
-					// cannot infer type for type parameter `K` declared on the associated function `something_config`
-					// note: cannot satisfy `_: EncodeLike<<T as Config>::SomethingConfigIndex>`
-					// if let Some(_some_config_idx) = Self::something_config(Zero::zero()) {
-					// 	debug::info!("_some_config_idx {:#?}", _some_config_idx);
-					// }
+					let zero: T::SomethingConfigIndex = Zero::zero();
+					if let Some(_some_config_idx) = Self::something_config(zero) {
+						debug::info!("_some_config_idx {:#?}", _some_config_idx);
+					}
 				} else {
 					debug::info!("empty index");
 				}
