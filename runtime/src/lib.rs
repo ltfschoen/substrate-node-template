@@ -266,6 +266,7 @@ parameter_types! {
 /// Configure the template pallet in pallets/template.
 impl pallet_template::Config for Runtime {
 	type Event = Event;
+	type Randomness = RandomnessCollectiveFlip;
 	type SomethingCountIndex = u64;
 	type SomethingConfigIndex = u64;
 }
