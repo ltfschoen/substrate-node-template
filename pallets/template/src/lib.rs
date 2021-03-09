@@ -34,6 +34,10 @@ pub trait Config: frame_system::Config {
 	type SomethingTeamResultIndex: Parameter + Member + AtLeast32Bit + Bounded + Default + Copy + Encode + Decode + From<u32>;
 }
 
+#[derive(Encode, Decode, Clone, PartialEq, Eq)]
+#[cfg_attr(feature = "std", derive(Debug))]
+pub struct SomethingTeam(pub [u8; 16]);
+
 #[cfg_attr(feature = "std", derive(Debug))]
 #[derive(Encode, Decode, Default, Clone, PartialEq)]
 pub struct SomethingTeamResult<U, V> {
@@ -62,7 +66,9 @@ decl_storage! {
 	trait Store for Module<T: Config> as TemplateModule {
 		// Learn more about declaring storage items:
 		// https://substrate.dev/docs/en/knowledgebase/runtime/storage#declaring-storage-items
-		Something get(fn something): Option<u32>;
+		// Something get(fn something): Option<u32>;
+
+		pub Somethings get(fn something): map hasher(opaque_blake2_256) T::SomethingIndex => Option<SomethingTeam>;
 
 		// Stores the amount of somethings
 		pub SomethingCount get(fn something_count): T::SomethingCountIndex;
@@ -165,7 +171,7 @@ decl_module! {
 			};
 
 			// a random 128bit value
-			let unique_id = Self::random_value(&who);
+			let unique_id = Self::random_value(&sender);
 
 			<SomethingTeamResults<T>>::insert(
 				unique_id,
