@@ -4,8 +4,18 @@
 /// Learn more about FRAME and the core library of Substrate FRAME pallets:
 /// https://substrate.dev/docs/en/knowledgebase/runtime/frame
 
-use frame_support::{decl_module, decl_storage, decl_event, decl_error, dispatch, traits::Get};
+use codec::{Decode, Encode, EncodeLike, Compact};
+use frame_support::{debug, decl_module, decl_storage, decl_event, decl_error, dispatch, traits::Get, Parameter};
 use frame_system::ensure_signed;
+use sp_runtime::{
+    traits::{
+        AtLeast32Bit,
+		Bounded,
+		Member,
+		One,
+		Zero,
+    },
+};
 
 #[cfg(test)]
 mod mock;
@@ -17,6 +27,9 @@ mod tests;
 pub trait Config: frame_system::Config {
 	/// Because this pallet emits events, it depends on the runtime's definition of an event.
 	type Event: From<Event<Self>> + Into<<Self as frame_system::Config>::Event>;
+	// Note: Into<64> is required so the `for` loop compiles
+	type SomethingCountIndex: Parameter + Member + AtLeast32Bit + Bounded + Default + Copy + Encode + Decode + Into<u64>;
+	type SomethingConfigIndex: Parameter + Member + AtLeast32Bit + Bounded + Default + Copy + Encode + Decode;
 }
 
 // The pallet's runtime storage items.
@@ -29,6 +42,12 @@ decl_storage! {
 		// Learn more about declaring storage items:
 		// https://substrate.dev/docs/en/knowledgebase/runtime/storage#declaring-storage-items
 		Something get(fn something): Option<u32>;
+
+		// Stores the amount of somethings
+		pub SomethingCount get(fn something_count): T::SomethingCountIndex;
+
+		pub SomethingConfig get(fn something_config): map hasher(opaque_blake2_256) T::SomethingConfigIndex =>
+		Option<T::BlockNumber>;
 	}
 }
 
@@ -62,6 +81,30 @@ decl_module! {
 
 		// Events must be initialized if they are used by the pallet.
 		fn deposit_event() = default;
+
+		fn on_finalize(current_block_number: T::BlockNumber) {
+            debug::info!("current block number {:#?}", current_block_number);
+
+			let something_count = Self::something_count();
+
+			<SomethingCount<T>>::put(something_count + One::one()); // One::one() or 1u32.into()
+
+			let index: T::SomethingConfigIndex = 0u32.into();
+			<SomethingConfig<T>>::insert(index, current_block_number);
+
+            for idx in 0..something_count.into() {
+				debug::info!("idx {:#?}", idx);
+
+				if let Some(_some_idx) = Self::something() {
+					let zero: T::SomethingConfigIndex = Zero::zero();
+					if let Some(_some_config_idx) = Self::something_config(zero) {
+						debug::info!("_some_config_idx {:#?}", _some_config_idx);
+					}
+				} else {
+					debug::info!("empty index");
+				}
+			}
+		}
 
 		/// An example dispatchable that takes a singles value as a parameter, writes the value to
 		/// storage and emits an event. This function must be dispatched by a signed extrinsic.
