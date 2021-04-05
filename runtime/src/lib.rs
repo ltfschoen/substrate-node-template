@@ -607,9 +607,12 @@ impl pallet_template::Config for Runtime {
 	type Event = Event;
 }
 
-impl pallet_calculator::Config for Runtime {
+impl pallet_proxy::Config for Runtime {
 	type Event = Event;
 	type Currency = Balances;
+    type Randomness = RandomnessCollectiveFlip;
+    type MiningEligibilityProxyIndex = u64;
+    type RewardsOfDay = u64;
 }
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
@@ -638,7 +641,7 @@ construct_runtime!(
 		Sudo: pallet_sudo::{Module, Call, Config<T>, Storage, Event<T>},
 		// Include the custom logic from the template pallet in the runtime.
 		TemplateModule: pallet_template::{Module, Call, Storage, Event<T>},
-		CalculatorModule: pallet_calculator::{Module, Call, Storage, Event<T>},
+		ProxyModule: pallet_proxy::{Module, Call, Storage, Event<T>},
 	}
 );
 

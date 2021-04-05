@@ -59,11 +59,11 @@ where
 pub fn authority_keys_from_seed(seed: &str) -> (AccountId, AccountId, GrandpaId, BabeId, ImOnlineId, AuthorityDiscoveryId) {
 	(
 		get_account_id_from_seed::<sr25519::Public>(&format!("{}//stash", seed)),
-        get_account_id_from_seed::<sr25519::Public>(seed),
+		get_account_id_from_seed::<sr25519::Public>(seed),
 		get_from_seed::<GrandpaId>(seed),
 		get_from_seed::<BabeId>(seed),
 		get_from_seed::<ImOnlineId>(seed),
-        get_from_seed::<AuthorityDiscoveryId>(seed),
+		get_from_seed::<AuthorityDiscoveryId>(seed),
 	)
 }
 
@@ -189,14 +189,14 @@ pub fn local_testnet_config() -> Result<ChainSpec, String> {
 fn session_keys(
 	grandpa: GrandpaId,
 	babe: BabeId,
-    im_online: ImOnlineId,
-    authority_discovery: AuthorityDiscoveryId,
+	im_online: ImOnlineId,
+	authority_discovery: AuthorityDiscoveryId,
 ) -> SessionKeys {
     SessionKeys {
 		grandpa,
 		babe,
-        im_online,
-        authority_discovery,
+		im_online,
+		authority_discovery,
     }
 }
 
@@ -229,19 +229,19 @@ fn testnet_genesis(
 			changes_trie_config: Default::default(),
 		}),
 		pallet_indices: Some(IndicesConfig {
-            indices: endowed_accounts.iter().enumerate().map(|(index, x)| (index as u32, (*x).clone())).collect(),
-        }),
+			indices: endowed_accounts.iter().enumerate().map(|(index, x)| (index as u32, (*x).clone())).collect(),
+		}),
 		pallet_balances: Some(BalancesConfig {
 			// Configure endowed accounts with initial balance of 1 << 60.
 			balances: endowed_accounts.iter().cloned().map(|k|(k, 1 << 60)).collect(),
 		}),
-        pallet_babe: Some(BabeConfig {
-            authorities: vec![],
-        }),
-        pallet_im_online: Some(ImOnlineConfig {
-            keys: vec![],
-        }),
-        pallet_authority_discovery: Some(AuthorityDiscoveryConfig {
+		pallet_babe: Some(BabeConfig {
+			authorities: vec![],
+		}),
+		pallet_im_online: Some(ImOnlineConfig {
+			keys: vec![],
+		}),
+		pallet_authority_discovery: Some(AuthorityDiscoveryConfig {
 			keys: vec![],
 		}),
 		pallet_collective_Instance1: Some(Default::default()),
@@ -249,24 +249,24 @@ fn testnet_genesis(
 			authorities: vec![],
 		}),
 		pallet_session: Some(SessionConfig {
-            keys: initial_authorities
-                .iter()
-                .map(|x| (x.0.clone(), x.0.clone(), session_keys(x.2.clone(), x.3.clone(), x.4.clone(), x.5.clone())))
-                .collect::<Vec<_>>(),
-        }),
+			keys: initial_authorities
+				.iter()
+				.map(|x| (x.0.clone(), x.0.clone(), session_keys(x.2.clone(), x.3.clone(), x.4.clone(), x.5.clone())))
+				.collect::<Vec<_>>(),
+		}),
 		pallet_staking: Some(StakingConfig {
 			validator_count: 1u32 as u32,
 			minimum_validator_count: 1u32 as u32,
 			// validator_count: initial_authorities.len() as u32 * 2,
 			// minimum_validator_count: initial_authorities.len() as u32,
-            stakers: initial_authorities
-                .iter()
-                .map(|x| (x.0.clone(), x.1.clone(), STASH, StakerStatus::Validator))
-                .collect(),
-            invulnerables: initial_authorities.iter().map(|x| x.0.clone()).collect(),
-            slash_reward_fraction: Perbill::from_percent(10),
-            ..Default::default()
-        }),
+			stakers: initial_authorities
+				.iter()
+				.map(|x| (x.0.clone(), x.1.clone(), STASH, StakerStatus::Validator))
+				.collect(),
+			invulnerables: initial_authorities.iter().map(|x| x.0.clone()).collect(),
+			slash_reward_fraction: Perbill::from_percent(10),
+			..Default::default()
+		}),
 		pallet_sudo: Some(SudoConfig {
 			// Assign network admin rights.
 			key: root_key,

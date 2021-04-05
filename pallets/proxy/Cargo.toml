@@ -1,47 +1,52 @@
 [package]
 authors = ['MXC Foundation GmbH <https://t.me/mxcfoundation>', 'Luke Schoen']
-description = 'Calculator based on substrate-node-template.'
+description = 'Proxy based on substrate-node-template.'
 edition = '2018'
 homepage = ''
 license = 'Unlicense'
-name = 'pallet-calculator'
+name = 'pallet-proxy'
 repository = ''
 version = '3.0.0'
 
 [package.metadata.docs.rs]
 targets = ['x86_64-unknown-linux-gnu']
 
-# alias "parity-scale-code" to "codec"
-[dependencies.codec]
-default-features = false
-features = ['derive']
-package = 'parity-scale-codec'
-version = '2.0.0'
-
 [dependencies]
+codec = { version = '2.0.0', package = 'parity-scale-codec', default-features = false, features = ['derive'] }
 frame-support = { default-features = false, version = '3.0.0' }
 frame-system = { default-features = false, version = '3.0.0' }
 module-primitives = { version = '3.0.0', default-features = false, path = '../primitives' }
+safe-mix = { version = '1.0.0', default-features = false }
 pallet-balances = { default_features = false, version = '3.0.0' }
+pallet-randomness-collective-flip = { version = '3.0.0', default-features = false }
 pallet-timestamp = { default-features = false, version = '3.0.0' }
+pallet-transaction-payment = { version = '3.0.0', default-features = false }
 substrate-fixed = { git = "https://github.com/encointer/substrate-fixed", version = "0.5.6" }
 serde = { version = "1.0.119" }
 sp-core = { default-features = false, version = '3.0.0' }
 sp-io = { default-features = false, version = '3.0.0' }
 sp-runtime = { default-features = false, version = '3.0.0' }
 sp-std = { default_features = false, version = '3.0.0' }
+chrono = { version = '0.4.19', default_features = false }
 
 [dev-dependencies]
 
 [features]
 default = ['std']
 std = [
+    'chrono/std',
     'codec/std',
     'frame-support/std',
     'frame-system/std',
     'module-primitives/std',
+    'safe-mix/std',
     'pallet-balances/std',
+    'pallet-randomness-collective-flip/std',
     'pallet-timestamp/std',
+    'pallet-transaction-payment/std',
+    'sp-core/std',
+    'sp-io/std',
+    'sp-runtime/std',
     'sp-std/std',
     'substrate-fixed/std',
 ]
