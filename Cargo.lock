@@ -3280,6 +3280,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "mining-eligibility-proxy"
+version = "3.0.0"
+dependencies = [
+ "chrono",
+ "frame-support",
+ "frame-system",
+ "module-primitives",
+ "pallet-balances",
+ "pallet-randomness-collective-flip",
+ "pallet-timestamp",
+ "pallet-transaction-payment",
+ "parity-scale-codec",
+ "safe-mix",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "substrate-fixed",
+]
+
+[[package]]
 name = "miniz_oxide"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3559,6 +3581,7 @@ dependencies = [
  "frame-system-benchmarking",
  "frame-system-rpc-runtime-api",
  "hex-literal",
+ "mining-eligibility-proxy",
  "module-primitives",
  "pallet-authority-discovery",
  "pallet-authorship",
@@ -3569,7 +3592,6 @@ dependencies = [
  "pallet-im-online",
  "pallet-indices",
  "pallet-offences",
- "pallet-proxy",
  "pallet-randomness-collective-flip",
  "pallet-session",
  "pallet-staking",
@@ -3890,28 +3912,6 @@ dependencies = [
  "sp-runtime",
  "sp-staking",
  "sp-std",
-]
-
-[[package]]
-name = "pallet-proxy"
-version = "3.0.0"
-dependencies = [
- "chrono",
- "frame-support",
- "frame-system",
- "module-primitives",
- "pallet-balances",
- "pallet-randomness-collective-flip",
- "pallet-timestamp",
- "pallet-transaction-payment",
- "parity-scale-codec",
- "safe-mix",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "substrate-fixed",
 ]
 
 [[package]]

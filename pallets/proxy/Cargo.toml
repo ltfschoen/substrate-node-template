@@ -4,7 +4,7 @@ description = 'Proxy based on substrate-node-template.'
 edition = '2018'
 homepage = ''
 license = 'Unlicense'
-name = 'pallet-proxy'
+name = 'mining-eligibility-proxy'
 repository = ''
 version = '3.0.0'
 

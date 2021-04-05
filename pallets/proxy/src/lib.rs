@@ -142,7 +142,7 @@ decl_error! {
 
 // https://substrate.dev/docs/en/knowledgebase/runtime/storage
 decl_storage! {
-	trait Store for Module<T: Config> as ProxyModule {
+	trait Store for Module<T: Config> as MiningEligibilityProxyModule {
 		// https://substrate.dev/docs/en/knowledgebase/runtime/storage#declaring-storage-items
 
         pub MiningEligibilityProxys get(fn mining_eligibility_proxy): map hasher(opaque_blake2_256) T::MiningEligibilityProxyIndex => Option<MiningEligibilityProxy>;
@@ -151,13 +151,14 @@ decl_storage! {
 
 		pub MiningEligibilityProxyOwners get(fn mining_eligibility_proxy_owner): map hasher(opaque_blake2_256) T::MiningEligibilityProxyIndex => Option<T::AccountId>;
 
-		pub MiningEligibilityProxyRewardRequests get(fn mining_eligibility_proxy_eligibility_reward_requests): map hasher(opaque_blake2_256) T::MiningEligibilityProxyIndex =>
-			Option<MiningEligibilityProxyRewardRequest<
-				T::AccountId,
-				BalanceOf<T>,
-				Vec<RewardeeData<T>>, // TODO - change to store MiningEligibilityProxyRewardeeIndex that is created to store then instead
-				<T as pallet_timestamp::Config>::Moment,
-			>>;
+		pub MiningEligibilityProxyRewardRequests get(fn mining_eligibility_proxy_eligibility_reward_requests):
+			map hasher(opaque_blake2_256) T::MiningEligibilityProxyIndex =>
+				Option<MiningEligibilityProxyRewardRequest<
+					T::AccountId,
+					BalanceOf<T>,
+					Vec<RewardeeData<T>>, // TODO - change to store MiningEligibilityProxyRewardeeIndex that is created to store then instead
+					<T as pallet_timestamp::Config>::Moment,
+				>>;
 
 		/// Returns reward data that has been distributed for a given day
         pub RewardsPerDay get(fn rewards_daily):
