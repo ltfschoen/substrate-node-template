@@ -16,5 +16,12 @@
     "proxy_claim_reward_amount": "Balance",
     "proxy_claim_start_date": "Date",
     "proxy_claim_end_date": "Date"
+  },
+  "RewardDailyData": {
+    "mining_eligibility_proxy_id": "MiningEligibilityProxyIndex",
+    "total_amt": "Balance",
+    "proxy_claim_requestor_account_id": "AccountId",
+    "member_kind": "u32",
+    "rewarded_date": "Date"
   }
 }
